@@ -12,5 +12,6 @@ package Teste;
 public class Grupo {
     public static void main(String[] args) {
         System.out.println("Antes TADS do que nunca");
+        System.out.println("oi");
     }
 }
