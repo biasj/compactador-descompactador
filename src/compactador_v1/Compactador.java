@@ -3,15 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Teste;
+package compactador_v1;
 
 /**
  *
  * @author beatrizsato
  */
-public class Grupo {
-    public static void main(String[] args) {
-        System.out.println("Antes TADS do que nunca");
-        System.out.println("oi");
-    }
+public class Compactador {
+    
 }
