@@ -19,8 +19,8 @@ public class Compactador {
         BufferedReader buffer = new BufferedReader(new FileReader(arquivo));
         String linha;
         String linhaEntrada[];
-        ListaEncadeada lista;
-        
+        ListaEncadeada lista = new ListaEncadeada();
+         
         try {
             // se r!= null significa que r está guardando referência do arquivo físico
             if(buffer != null) {
@@ -28,9 +28,19 @@ public class Compactador {
                 while(linha != null) {
                     linhaEntrada = linha.split(":");
                     
-//                    for(String s: linhaEntrada) {
-//                        lista.buscaLinear(s);
-//                    }
+                    // se não for caracter especial
+                    for(String s: linhaEntrada) {
+                        No temp = lista.buscaLinear(s);
+                        // se palavra não estiver na lista
+                        if(temp == null) {
+                            // insere no início da lista
+                            // escreve no arquivo compactado
+                        } else {
+                            // pega a posição na lista e escreve no arquivo
+                            // remove da posição da lista
+                            // insere no início da lista
+                        }
+                    } 
                     
                     
                     // lê a próxima linha
