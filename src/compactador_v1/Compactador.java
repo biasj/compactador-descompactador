@@ -35,6 +35,7 @@ public class Compactador {
                     
                     // lê a próxima linha
                     linha = buffer.readLine();
+                    System.out.println("hello world");
                 }
                 
             }
