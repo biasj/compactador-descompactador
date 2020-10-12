@@ -40,15 +40,15 @@ public class ListaEncadeada {
     }
     
     // inserção no início
-    public void insereInicio(int elemento) {
+    public void insereInicio(String elemento) {
         No novo = new No(elemento, ini);
         ini = novo;
     }
     
-    public No buscaLinear(int elemento){
+    public No buscaLinear(String elemento){
         No temp = ini;
         while(temp != null) {
-            if (elemento == temp.getElemento()) {
+            if (elemento.equals(temp.getElemento())) {
                 return temp;
             }
             temp = temp.getProx();
