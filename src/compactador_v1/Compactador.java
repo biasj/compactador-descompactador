@@ -32,7 +32,7 @@ public class Compactador {
 //linhaEntrada = lsLinha.split("[^A-z]");
                 
                 Pattern lpPalavra = Pattern.compile("[a-zA-Z]*");
-                Pattern lpNaoPalavra = Pattern.compile("[^ a-zA-Z]*");
+                Pattern lpNaoPalavra = Pattern.compile("[^ a-zA-Z]");
                 
                 Matcher lmPalavra = lpPalavra.matcher(lsLinha);
                 Matcher lmNaoPalavra = lpNaoPalavra.matcher(lsLinha);
@@ -43,8 +43,11 @@ public class Compactador {
                 lbExistePalavra = lmPalavra.find();
                 lbExisteNaoPalavra = lmNaoPalavra.find();
                 
-                while(lbExistePalavra || lbExisteNaoPalavra){
+                while(lbExistePalavra){
                     
+                    System.out.println("Posição da Palavra: " + lmPalavra.start() + " Termina em: " + lmPalavra.end());
+                    lbExistePalavra = lmPalavra.find();
+                    /*
                     if (lbExistePalavra && lbExisteNaoPalavra){
                         
                         if (lmPalavra.start() < lmNaoPalavra.start()) {
@@ -61,7 +64,7 @@ public class Compactador {
                         System.out.println("Posição da Não Palavra: " + lmNaoPalavra.start() + "Termina em: " + lmNaoPalavra.end());
                         lbExisteNaoPalavra = lmNaoPalavra.find(lmNaoPalavra.end()+1);
                     }
-                    
+                    */
                 }
                 
                 /*
