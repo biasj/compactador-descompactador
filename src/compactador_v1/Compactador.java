@@ -28,17 +28,28 @@ public class Compactador {
                 while(linha != null) {
                     linhaEntrada = linha.split(":");
                     
-                    // se não for caracter especial
-                    for(String s: linhaEntrada) {
-                        No temp = lista.buscaLinear(s);
+                    // se não for caracter especial, tem que ser for iterativo para pegar o índice
+                    for(int i=0;i<linhaEntrada.length;i++) {
+                        No temp = lista.buscaLinear(linhaEntrada[i]);
+                        
                         // se palavra não estiver na lista
                         if(temp == null) {
                             // insere no início da lista
-                            // escreve no arquivo compactado
+                            lista.insereInicio(linhaEntrada[i]);
+                            
+                            
+                            // escreve no arquivo compactado BUFFERED WRITER 
+                            
+                            
                         } else {
-                            // pega a posição na lista e escreve no arquivo
-                            // remove da posição da lista
+                            // pega a posição na lista e escreve no arquivo BUFFEREDWRITER (i+1)
+                            
+                            
                             // insere no início da lista
+                            lista.insereInicio(linhaEntrada[i]);
+                            
+                            // remove da posição da lista
+                            lista.removeFinal();
                         }
                     } 
                     
@@ -50,6 +61,8 @@ public class Compactador {
             }
             // encerra comunicação entre arquivo lógico e físico, não encerra arquivo físico
             buffer.close();
+            
+            System.out.println(lista);
             
         } catch(Exception e) {
             System.exit(-1);

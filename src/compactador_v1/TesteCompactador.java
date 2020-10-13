@@ -5,12 +5,15 @@
  */
 package compactador_v1;
 
+import java.io.IOException;
+
 /**
  *
  * @author beatrizsato
  */
 public class TesteCompactador {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         System.out.println("Compactador \n");
+        Compactador.leituraArquivo("entrada.txt");
     }
 }
