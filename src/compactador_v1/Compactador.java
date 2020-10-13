@@ -9,7 +9,8 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
 /**
  *
  * @author beatrizsato
@@ -17,16 +18,60 @@ import java.io.IOException;
 public class Compactador {
     public static void leituraArquivo(String arquivo) throws FileNotFoundException, IOException {
         BufferedReader buffer = new BufferedReader(new FileReader(arquivo));
-        String linha;
+        
+        String lsLinha;
         String linhaEntrada[];
         ListaEncadeada lista = new ListaEncadeada();
          
         try {
             // se r!= null significa que r está guardando referência do arquivo físico
             if(buffer != null) {
-                linha = buffer.readLine();
-                while(linha != null) {
-                    linhaEntrada = linha.split(":");
+                
+                lsLinha = buffer.readLine();
+                
+//linhaEntrada = lsLinha.split("[^A-z]");
+                
+                Pattern lpPalavra = Pattern.compile("[a-zA-Z]*");
+                Pattern lpNaoPalavra = Pattern.compile("[^ a-zA-Z]*");
+                
+                Matcher lmPalavra = lpPalavra.matcher(lsLinha);
+                Matcher lmNaoPalavra = lpNaoPalavra.matcher(lsLinha);
+
+                Boolean lbExistePalavra, lbExisteNaoPalavra;
+                int liPosPalavra, liPosNaoPalavra;
+                
+                lbExistePalavra = lmPalavra.find();
+                lbExisteNaoPalavra = lmNaoPalavra.find();
+                
+                while(lbExistePalavra || lbExisteNaoPalavra){
+                    
+                    if (lbExistePalavra && lbExisteNaoPalavra){
+                        
+                        if (lmPalavra.start() < lmNaoPalavra.start()) {
+                            System.out.println("Posição da Palavra: " + lmPalavra.start() + "Termina em: " + lmPalavra.end());
+                            lbExistePalavra = lmPalavra.find(lmPalavra.end()+1);
+                        } else {
+                            System.out.println("Posição da Não Palavra: " + lmNaoPalavra.start() + "Termina em: " + lmNaoPalavra.end());
+                            lbExisteNaoPalavra = lmNaoPalavra.find(lmNaoPalavra.end()+1);
+                        }
+                    } else if (lbExistePalavra){
+                        System.out.println("Posição da Palavra: " + lmPalavra.start() + "Termina em: " + lmPalavra.end());
+                        lbExistePalavra = lmPalavra.find(lmPalavra.end()+1);
+                    } else if (lbExisteNaoPalavra){
+                        System.out.println("Posição da Não Palavra: " + lmNaoPalavra.start() + "Termina em: " + lmNaoPalavra.end());
+                        lbExisteNaoPalavra = lmNaoPalavra.find(lmNaoPalavra.end()+1);
+                    }
+                    
+                }
+                
+                /*
+                for (String lsPalavra : linhaEntrada){
+                    System.out.println(lsPalavra);
+                }
+                */
+               /* 
+                while() {
+                        
                     
                     // se não for caracter especial
                     for(String s: linhaEntrada) {
@@ -44,16 +89,20 @@ public class Compactador {
                     
                     
                     // lê a próxima linha
-                    linha = buffer.readLine();
+                    lsLinha = buffer.readLine();
                     System.out.println("hello world");
-                }
+                }*/
+
                 
             }
             // encerra comunicação entre arquivo lógico e físico, não encerra arquivo físico
             buffer.close();
             
-        } catch(Exception e) {
-            System.exit(-1);
+        } catch (FileNotFoundException e){
+            System.out.println(e);
+        }
+        catch (IOException e){
+            System.out.println(e);
         }
     }
 }

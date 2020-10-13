@@ -5,12 +5,26 @@
  */
 package compactador_v1;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 /**
  *
  * @author beatrizsato
  */
 public class TesteCompactador {
     public static void main(String[] args) {
-        System.out.println("Compactador \n");
+        Compactador c;
+        
+        c = new Compactador();
+        
+        try{
+            c.leituraArquivo("entrada.txt");
+        } catch (FileNotFoundException e){
+            System.out.println(e);
+        }
+        catch (IOException e){
+            System.out.println(e);
+        }
     }
 }
