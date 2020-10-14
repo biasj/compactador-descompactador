@@ -6,105 +6,97 @@
 package compactador_v1;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
+
 /**
  *
  * @author beatrizsato
  */
 public class Compactador {
+
     public static void leituraArquivo(String arquivo) throws FileNotFoundException, IOException {
-        BufferedReader buffer = new BufferedReader(new FileReader(arquivo));
-        
-        String lsLinha;
+        BufferedReader reader = new BufferedReader(new FileReader(arquivo));
+        BufferedWriter writer = new BufferedWriter(new FileWriter("compactado.txt"));
+
+        String linha;
         String linhaEntrada[];
         ListaEncadeada lista = new ListaEncadeada();
-         
+        
         try {
-            // se r!= null significa que r está guardando referência do arquivo físico
-            if(buffer != null) {
+            
+            if (reader != null && writer != null) {
+                linha = reader.readLine();
                 
-                lsLinha = buffer.readLine();
-                
-//linhaEntrada = lsLinha.split("[^A-z]");
-                
-                Pattern lpPalavra = Pattern.compile("[a-zA-Z]*");
-                Pattern lpNaoPalavra = Pattern.compile("[^ a-zA-Z]");
-                
-                Matcher lmPalavra = lpPalavra.matcher(lsLinha);
-                Matcher lmNaoPalavra = lpNaoPalavra.matcher(lsLinha);
-
-                Boolean lbExistePalavra, lbExisteNaoPalavra;
-                int liPosPalavra, liPosNaoPalavra;
-                
-                lbExistePalavra = lmPalavra.find();
-                lbExisteNaoPalavra = lmNaoPalavra.find();
-                
-                while(lbExistePalavra){
+                while (linha != null && !linha.equals("0")) {
+                    Pattern lpPalavra = Pattern.compile("[a-zA-Z]*");
+                    Pattern lpNaoPalavra = Pattern.compile("[^ a-zA-Z]");
                     
-                    System.out.println("Posição da Palavra: " + lmPalavra.start() + " Termina em: " + lmPalavra.end());
+                    Matcher lmPalavra = lpPalavra.matcher(linha);
+                    Matcher lmNaoPalavra = lpNaoPalavra.matcher(linha);
+
+                    Boolean lbExistePalavra, lbExisteNaoPalavra;
+                    int liPosPalavra, liPosNaoPalavra;
+
                     lbExistePalavra = lmPalavra.find();
-                    /*
-                    if (lbExistePalavra && lbExisteNaoPalavra){
-                        
-                        if (lmPalavra.start() < lmNaoPalavra.start()) {
-                            System.out.println("Posição da Palavra: " + lmPalavra.start() + "Termina em: " + lmPalavra.end());
-                            lbExistePalavra = lmPalavra.find(lmPalavra.end()+1);
-                        } else {
-                            System.out.println("Posição da Não Palavra: " + lmNaoPalavra.start() + "Termina em: " + lmNaoPalavra.end());
-                            lbExisteNaoPalavra = lmNaoPalavra.find(lmNaoPalavra.end()+1);
-                        }
-                    } else if (lbExistePalavra){
-                        System.out.println("Posição da Palavra: " + lmPalavra.start() + "Termina em: " + lmPalavra.end());
-                        lbExistePalavra = lmPalavra.find(lmPalavra.end()+1);
-                    } else if (lbExisteNaoPalavra){
-                        System.out.println("Posição da Não Palavra: " + lmNaoPalavra.start() + "Termina em: " + lmNaoPalavra.end());
-                        lbExisteNaoPalavra = lmNaoPalavra.find(lmNaoPalavra.end()+1);
-                    }
-                    */
-                }
-                
-                /*
-                for (String lsPalavra : linhaEntrada){
-                    System.out.println(lsPalavra);
-                }
-                */
-               /* 
-                while() {
-                        
-                    
-                    // se não for caracter especial
-                    for(String s: linhaEntrada) {
-                        No temp = lista.buscaLinear(s);
-                        // se palavra não estiver na lista
-                        if(temp == null) {
-                            // insere no início da lista
-                            // escreve no arquivo compactado
-                        } else {
-                            // pega a posição na lista e escreve no arquivo
-                            // remove da posição da lista
-                            // insere no início da lista
-                        }
-                    } 
-                    
-                    
-                    // lê a próxima linha
-                    lsLinha = buffer.readLine();
-                    System.out.println("hello world");
-                }*/
+                    lbExisteNaoPalavra = lmNaoPalavra.find();
 
-                
+                    while (lbExistePalavra) {
+
+                        System.out.println("Posição da Palavra: " + lmPalavra.start() + " Termina em: " + lmPalavra.end());
+                        lbExistePalavra = lmPalavra.find();
+                        
+                    }
+
+                    linhaEntrada = linha.split(" ");
+
+                    // para cada palavra na linha, conferir se está na lista e copiar a palavra ou a posição na lista para o arquivo
+                    for (int i = 0; i < linhaEntrada.length; i++) {
+                        No temp = lista.buscaLinear(linhaEntrada[i]);
+
+                        // se palavra não estiver na lista
+                        if (temp == null) {
+                            // insere no início da lista
+                            lista.insereInicio(linhaEntrada[i]);
+
+                            // escreve no arquivo compactado 
+                            writer.write(linhaEntrada[i]);
+
+                        } else {
+                            // pega a posição na lista e escreve no arquivo 
+                            // como pegar a posição do No na lista?
+                            int posicao = lista.buscaPosicao(linhaEntrada[i]);
+                            writer.write(String.valueOf(posicao));
+
+                            // remove palavra da lista
+                            lista.removePalavra(linhaEntrada[i]);
+
+                            // insere no início da lista
+                            lista.insereInicio(linhaEntrada[i]);
+
+                        }
+                    }
+
+                    // lê a próxima linha
+                    linha = reader.readLine();
+                }
+
             }
             // encerra comunicação entre arquivo lógico e físico, não encerra arquivo físico
-            buffer.close();
-            
-        } catch (FileNotFoundException e){
+            reader.close();
+            writer.flush();
+            writer.close();
+
+            System.out.println(lista);
+
+        } catch (FileNotFoundException e) {
             System.out.println(e);
-        }
-        catch (IOException e){
+        } catch (IOException e) {
             System.out.println(e);
         }
     }

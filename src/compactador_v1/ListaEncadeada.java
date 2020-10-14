@@ -78,5 +78,44 @@ public class ListaEncadeada {
         
         anterior.setProx(null);
     }
+    
+    public int buscaPosicao(String elemento){
+        No temp = ini;
+        int cont = 0;
+        while(temp != null) {
+            cont++;
+            if (elemento.equals(temp.getElemento())) {
+                return cont;
+            }
+            temp = temp.getProx();
+        }
+        
+        return 0;
+    }
+    
+    public void removePalavra(String palavra) {
+        No temp = ini;
+        No anterior = null;
 
+        while(temp != null && !temp.getElemento().equals(palavra)) {
+            anterior = temp;
+            temp = temp.getProx();
+        }
+        
+        // remove no inicio 1 ou mais nós
+        if(anterior == null) {
+            ini = ini.getProx();
+            return;
+        }
+        
+        if(palavra.equals(temp.getElemento())) {
+            anterior.setProx(temp.getProx());
+            return;
+        }
+        
+        if(temp == null) {
+            System.out.println("Elemento não está na lista");
+            return;
+        }
+    }
 }
