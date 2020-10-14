@@ -26,5 +26,14 @@ public class TesteCompactador {
         catch (IOException e){
             System.out.println(e);
         }
+        
+        try{
+            c.descompactarArquivo("compactado.txt");
+        } catch (FileNotFoundException e){
+            System.out.println(e);
+        }
+        catch (IOException e){
+            System.out.println(e);
+        }
     }
 }
