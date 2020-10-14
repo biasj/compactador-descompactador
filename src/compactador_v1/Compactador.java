@@ -6,8 +6,10 @@
 package compactador_v1;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 
 /**
@@ -16,19 +18,21 @@ import java.io.IOException;
  */
 public class Compactador {
     public static void leituraArquivo(String arquivo) throws FileNotFoundException, IOException {
-        BufferedReader buffer = new BufferedReader(new FileReader(arquivo));
+        BufferedReader reader = new BufferedReader(new FileReader(arquivo));
+        BufferedWriter writer = new BufferedWriter(new FileWriter("compactado.txt"));
+
         String linha;
         String linhaEntrada[];
         ListaEncadeada lista = new ListaEncadeada();
          
         try {
             // se r!= null significa que r está guardando referência do arquivo físico
-            if(buffer != null) {
-                linha = buffer.readLine();
-                while(linha != null) {
-                    linhaEntrada = linha.split(":");
+            if(reader != null && writer != null) {
+                linha = reader.readLine();
+                while(linha != null && !linha.equals("0")) {
+                    linhaEntrada = linha.split(" ");
                     
-                    // se não for caracter especial, tem que ser for iterativo para pegar o índice
+                    // para cada palavra na linha, conferir se está na lista e copiar a palavra ou a posição na lista para o arquivo
                     for(int i=0;i<linhaEntrada.length;i++) {
                         No temp = lista.buscaLinear(linhaEntrada[i]);
                         
@@ -37,30 +41,36 @@ public class Compactador {
                             // insere no início da lista
                             lista.insereInicio(linhaEntrada[i]);
                             
-                            
-                            // escreve no arquivo compactado BUFFERED WRITER 
-                            
+                            // escreve no arquivo compactado 
+                            writer.write(linhaEntrada[i]);
                             
                         } else {
-                            // pega a posição na lista e escreve no arquivo BUFFEREDWRITER (i+1)
+                            // pega a posição na lista e escreve no arquivo 
+                            // como pegar a posição do No na lista?
+                            int posicao = lista.buscaPosicao(linhaEntrada[i]);
+                            writer.write(String.valueOf(posicao));
                             
+                            // remove palavra da lista
+                            lista.removePalavra(linhaEntrada[i]);
                             
                             // insere no início da lista
                             lista.insereInicio(linhaEntrada[i]);
                             
-                            // remove da posição da lista
-                            lista.removeFinal();
+                            
+                            
                         }
                     } 
                     
                     
                     // lê a próxima linha
-                    linha = buffer.readLine();
+                    linha = reader.readLine();
                 }
                 
             }
             // encerra comunicação entre arquivo lógico e físico, não encerra arquivo físico
-            buffer.close();
+            reader.close();
+            writer.flush();
+            writer.close();
             
             System.out.println(lista);
             
