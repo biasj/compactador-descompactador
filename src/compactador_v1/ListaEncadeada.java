@@ -118,14 +118,4 @@ public class ListaEncadeada {
             return;
         }
     }
-    
-    public No buscaPalavra(int posicao) {
-        No temp = ini;
-        
-        for(int i=0;i<posicao-1;i++) {
-            temp = temp.getProx();
-        }
-        
-        return temp;
-    }
 }
