@@ -19,7 +19,16 @@ public class TesteCompactador {
         c = new Compactador();
         
         try{
-            c.leituraArquivo("entrada.txt");
+            c.compactarArquivo("entrada.txt");
+        } catch (FileNotFoundException e){
+            System.out.println(e);
+        }
+        catch (IOException e){
+            System.out.println(e);
+        }
+        
+        try{
+            c.descompactarArquivo("entrada.txt");
         } catch (FileNotFoundException e){
             System.out.println(e);
         }

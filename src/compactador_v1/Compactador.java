@@ -20,7 +20,7 @@ import java.util.regex.Matcher;
  */
 public class Compactador {
 
-    public static void leituraArquivo(String arquivo) throws FileNotFoundException, IOException {
+    public static void compactarArquivo(String arquivo) throws FileNotFoundException, IOException {
         BufferedReader reader = new BufferedReader(new FileReader(arquivo));
         BufferedWriter writer = new BufferedWriter(new FileWriter("compactado.txt"));
 
@@ -167,7 +167,8 @@ public class Compactador {
                                 // escreve no arquivo compactado 
                                 writer.write(linhaEntrada[i] + " ");
                             }
-                        } else {
+                            
+                        } else if(linhaEntrada[i].matches("[0-9]+")){
                             // pega a posição na lista e escreve no arquivo 
                             // como pegar a posição do No na lista?
                             int posicao = Integer.parseInt(linhaEntrada[i]);
