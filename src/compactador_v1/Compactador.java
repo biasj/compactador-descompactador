@@ -55,22 +55,21 @@ public class Compactador {
                 lbExisteNaoPalavra = lmNaoPalavra.find();
 
                 while (lbExistePalavra) {
-                    
-//                    System.out.println("Posição da Palavra: " + lmPalavra.start() + " Termina em: " + lmPalavra.end());
-                    
+                                        
                     // Se a palavra está no início da linha
                     if (lmPalavra.start() != PosicaoLinha) {
+                        // se for pontuação ou espaço, escreve direto no arquivo
                         naoPalavra = linha.substring(PosicaoLinha, lmPalavra.start());
-//                        System.out.println("Não Palavra:" + naoPalavra + "|");
                         writer.write(naoPalavra);
                     }
 
                     // retirar a palavra da linha desde a posição start até end -1 e armazenar em uma variável
                     palavra = linha.substring(lmPalavra.start(), lmPalavra.end());
 
-//                    System.out.println("Palavra:" + palavra + "|");
                     
-                    // LOGICA 
+                    // LÓGICA DE MANIPULAÇÃO DA LISTA E DO ARQUIVO
+                    
+                    // busca a palavra na lista
                     No temp = lista.buscaLinear(palavra);
 
                     // se palavra não estiver na lista
@@ -83,7 +82,6 @@ public class Compactador {
 
                     } else {
                         // pega a posição na lista e escreve no arquivo 
-                        // como pegar a posição do No na lista?
                         int posicao = lista.buscaPosicao(palavra);
                         writer.write(String.valueOf(posicao));
 
@@ -103,12 +101,13 @@ public class Compactador {
 
                 }
                 
+                // se não for palavra, escreve direto no arquivo
                 if (PosicaoLinha < linha.length()) {
                     naoPalavra = linha.substring(PosicaoLinha, linha.length());
-//                    System.out.println("Não Palavra:" + naoPalavra + "|");
                     writer.write(naoPalavra);
                 }
-                    
+                
+                // insere a quebra de linha no arquivo
                 writer.write("\n");
                 // lê a próxima linha
                 linha = reader.readLine();
@@ -143,7 +142,8 @@ public class Compactador {
                 linha = reader.readLine();
                 
                 while (linha != null && !linha.equals("0")) {
-
+                    
+                    // quebra a linha e salva todas as palavras, espaços e pontuação
                     linhaEntrada = linha.split("\\b");
 
                     // para cada palavra na linha, conferir se está na lista e copiar a palavra ou a posição na lista para o arquivo
@@ -160,19 +160,21 @@ public class Compactador {
                             if (temp == null) {
                                 // insere no início da lista
                                 lista.insereInicio(linhaEntrada[i]);
-
                                 
+                            // se palavra estiver na lista
                             } else {
-       
                                 lista.removePalavra(linhaEntrada[i]);
                                 lista.insereInicio(linhaEntrada[i]);
                             }
-                            
+                        
+                        // se a palavra for um número, já existe na lista
                         } else if(linhaEntrada[i].matches("[0-9]+")){
                             // pega a posição na lista e escreve no arquivo 
-                            // como pegar a posição do No na lista?
                             int posicao = Integer.parseInt(linhaEntrada[i]);
+                            // busca a palavra pela posição na lista
                             No temp = lista.buscaPalavra(posicao);
+                            
+                            // escreve a palavra referente à posição no arquivo
                             writer.write(temp.getElemento());
 
                             // remove palavra da lista
@@ -181,11 +183,14 @@ public class Compactador {
                             // insere no início da lista
                             lista.insereInicio(temp.getElemento());
 
+                        // se for pontuação ou espaço
                         } else {
+                            // escreve no arquivo
                             writer.write(linhaEntrada[i]);
                         }
                     }
                     
+                    // insere a quebra de linha no arquivo
                     writer.write("\n");
                     // lê a próxima linha
                     linha = reader.readLine();
