@@ -2,7 +2,13 @@
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
+ * 
+ * Grupo:
+ * Beatriz Sato
+ * Gabriel Friedmann
+ * Marcelo Frost Marchesan
  */
+ 
 package compactador_v1;
 
 import java.io.BufferedReader;
@@ -43,16 +49,12 @@ public class Compactador {
             while (linha != null && !linha.equals("0")) {
                 
                 Pattern lpPalavra = Pattern.compile("[a-zA-Z]+");
-                Pattern lpNaoPalavra = Pattern.compile("[^a-zA-Z]");
 
                 Matcher lmPalavra = lpPalavra.matcher(linha);
-                Matcher lmNaoPalavra = lpNaoPalavra.matcher(linha);
 
-                Boolean lbExistePalavra, lbExisteNaoPalavra;
-                int liPosPalavra, liPosNaoPalavra;
+                Boolean lbExistePalavra;
 
                 lbExistePalavra = lmPalavra.find();
-                lbExisteNaoPalavra = lmNaoPalavra.find();
 
                 while (lbExistePalavra) {
                                         
